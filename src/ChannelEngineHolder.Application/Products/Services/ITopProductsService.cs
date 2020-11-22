@@ -6,6 +6,6 @@ namespace ChannelEngineHolder.Application.Products.Services
 {
     public interface ITopProductsService
     {
-        Task<IEnumerable<Product>> GetProductsByQuantity(int number);
+        Task<IEnumerable<Product>> GetProductsByQuantity(IEnumerable<Order> orders, int number);
     }
 }

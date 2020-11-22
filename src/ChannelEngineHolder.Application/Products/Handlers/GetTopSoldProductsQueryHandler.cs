@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ChannelEngineHolder.Application.Products.Dtos;
 using ChannelEngineHolder.Application.Products.Queries;
 using ChannelEngineHolder.Application.Products.Services;
+using ChannelEngineHolder.Domain.Models;
 using MediatR;
 
 namespace ChannelEngineHolder.Application.Products.Handlers
 {
-    class GetTopSoldProductsQueryHandler : IRequestHandler<GetTopSoldProductsQuery, IEnumerable<ProductDto>>
+    class GetTopSoldProductsQueryHandler : IRequestHandler<GetTopSoldProductsQuery, IEnumerable<Product>>
     {
         private const int ProductNumber= 5;
         private readonly ITopProductsService _productsService;
@@ -17,10 +16,10 @@ namespace ChannelEngineHolder.Application.Products.Handlers
         {
             _productsService = productsService;
         }
-        public async Task<IEnumerable<ProductDto>> Handle(GetTopSoldProductsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Product>> Handle(GetTopSoldProductsQuery request, CancellationToken cancellationToken)
         {
-            var top5Products = await _productsService.GetProductsByQuantity(ProductNumber);
-            return top5Products.Select(p => new ProductDto(p));
+            var top5Products = await _productsService.GetProductsByQuantity(request.Orders, ProductNumber);
+            return top5Products;
         }
     }
 }

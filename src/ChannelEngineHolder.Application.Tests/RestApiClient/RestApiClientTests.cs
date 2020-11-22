@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using ChannelEngineHolder.Domain.Models;
@@ -17,9 +17,8 @@ namespace ChannelEngineHolder.Tests.RestApiClient
         [Fact]
         public async Task Should_ReturnOrders_FromRestApi()
         {
-            var config = new ChannelEngineApiConfig() { BaseUrl = BaseUrl, ApiKey = ApiKey };
-            var apiClient = new ChannelEngineApiClient(config);
-
+            var apiClient = GetApiClient();
+           
             var orders = await apiClient.GetOrdersInProgress();
 
             Assert.NotEmpty(orders);
@@ -28,20 +27,31 @@ namespace ChannelEngineHolder.Tests.RestApiClient
         [Fact]
         public async Task Should_ReturnProducts_FromRestApi()
         {
-            var config = new ChannelEngineApiConfig() { BaseUrl = BaseUrl, ApiKey = ApiKey };
-            var apiClient = new ChannelEngineApiClient(config);
+            var apiClient = GetApiClient();
+            var numbers = new List<string>() {"001201-L", "001201-S"};
+           
+            var products = await apiClient.GetProducts(numbers);
 
-            var orders = await apiClient.GetProducts();
-
-            Assert.NotEmpty(orders);
+            Assert.NotEmpty(products);
         }
 
         [Fact]
-        public async Task Should_UpdateProducts_ByRestApi()
+        public async Task Should_ReturnProduct_FromRestApi()
         {
-            var config = new ChannelEngineApiConfig() { BaseUrl = BaseUrl, ApiKey = ApiKey };
-            var apiClient = new ChannelEngineApiClient(config);
-            var product = await GetRandomProduct(apiClient);
+            var apiClient = GetApiClient();
+            var number = "001201-L";
+
+            var product = await apiClient.GetProduct(number);
+
+            Assert.Equal(number, product.MerchantProductNo);
+        }
+
+        [Fact]
+        public async Task Should_UpdateProduct_ByRestApi()
+        {
+            var apiClient = GetApiClient();
+            var productNumber = "001201-L";
+            var product = await GetProduct(apiClient, productNumber);
             var newProductStock = product.Stock + 1;
 
             await apiClient.SetProductStock(product.MerchantProductNo, newProductStock);
@@ -53,8 +63,7 @@ namespace ChannelEngineHolder.Tests.RestApiClient
         [Theory, AutoData]
         public async Task Should_ThrowError_When_PatchNotSuccess(string productNumber)
         {
-            var config = new ChannelEngineApiConfig() { BaseUrl = BaseUrl, ApiKey = ApiKey };
-            var apiClient = new ChannelEngineApiClient(config);
+            var apiClient = GetApiClient();
 
             var action = apiClient.SetProductStock(productNumber, 3);
 
@@ -64,13 +73,14 @@ namespace ChannelEngineHolder.Tests.RestApiClient
 
         private async Task<Product> GetProduct(ChannelEngineApiClient apiClient, string number)
         {
-            var products = await apiClient.GetProducts();
-            return products.FirstOrDefault(p => p.MerchantProductNo == number);
+            var products = await apiClient.GetProduct(number);
+            return products;
         }
-        private async Task<Product> GetRandomProduct(ChannelEngineApiClient apiClient)
+
+        private ChannelEngineApiClient GetApiClient()
         {
-            var products = await apiClient.GetProducts();
-            return products.FirstOrDefault();
+            var config = new ChannelEngineApiConfig() { BaseUrl = BaseUrl, ApiKey = ApiKey };
+            return new ChannelEngineApiClient(config);
         }
     }
 }

@@ -16,45 +16,29 @@ namespace ChannelEngineHolder.Tests.Application
     public class SetProductStockCommandHandlerTests
     {
         [Theory, AutoMoqData]
-        public async Task Should_ThrowError_When_ProductsNotReturned([Frozen] TopProductsServiceMock topProductsServiceMock,
-                                                                  SetProductStockCommandHandler handler,
-                                                                  SetProductStockCommand command,
-                                                                  CancellationToken token)
+        public async Task Should_ThrowError_When_ProductNotReturned(SetProductStockCommand command,
+                                                                    CancellationToken token)
         {
-            topProductsServiceMock.SetupEmptyResults();
+            var productsRepositoryMock = new ProductsRepositoryMock();
+            productsRepositoryMock.SetupEmptyResults();
+            var handler = new SetProductStockCommandHandler(productsRepositoryMock.Object);
 
             await Assert.ThrowsAsync<ProductNotFoundException>(async () => await handler.Handle(command, token));
         }
-
-        [Theory, AutoMoqData]
-        public async Task Should_ThrowError_When_ProductNotFound([Frozen] TopProductsServiceMock topProductsServiceMock,
-            SetProductStockCommandHandler handler,
-            SetProductStockCommand command,
-            CancellationToken token,
-            Product product)
-        {
-            command.ProductNumber = "number";
-            topProductsServiceMock.SetupResults(new List<Product>() { product });
-
-            await Assert.ThrowsAsync<ProductNotFoundException>(async () => await handler.Handle(command, token));
-        }
-
+        
         [Theory, AutoMoqData]
         public async Task Should_InvokeRepositoryMethod_When_ProductFounded([Frozen] Mock<IProductsRepository> productsRepositoryMock,
-                                                                           
+
                                                                             SetProductStockCommand command,
                                                                             CancellationToken token,
                                                                             Product product)
         {
             command.ProductNumber = product.MerchantProductNo;
-            var topProductsServiceMock = new TopProductsServiceMock();
-            topProductsServiceMock.SetupResults(new List<Product>() { product });
-            var handler =
-                new SetProductStockCommandHandler(topProductsServiceMock.Object, productsRepositoryMock.Object);
-           
+            var handler = new SetProductStockCommandHandler(productsRepositoryMock.Object);
+
             await handler.Handle(command, token);
 
-            productsRepositoryMock.Verify(x => x.SetStock(command.ProductNumber, command.Stock), Times.Once);
+            productsRepositoryMock.Verify(x => x.SetStock(command.ProductNumber, It.IsAny<int>()), Times.Once);
         }
     }
 }

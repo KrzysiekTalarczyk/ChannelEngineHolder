@@ -4,8 +4,8 @@ using MediatR;
 
 namespace ChannelEngineHolder.Application.Products.Queries
 {
-    public class GetTopSoldProductsQuery : IRequest<IEnumerable<Product>>
+    public class GetProductQuery : IRequest<Product>
     {
-        public IEnumerable<Order> Orders { get; set; }
+        public string ProductNumber { get; set; }
     }
 }

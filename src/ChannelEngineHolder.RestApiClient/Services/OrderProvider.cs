@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ChannelEngineHolder.Application.Interfaces;
 using ChannelEngineHolder.Domain.Models;
@@ -16,7 +17,8 @@ namespace ChannelEngineHolder.RestApiClient.Services
 
         public async Task<IEnumerable<Order>> GetAllInProgress()
         {
-            return await _apiClient.GetOrdersInProgress();
+            var orderResponses = await _apiClient.GetOrdersInProgress();
+            return orderResponses.Select(o => o.MapToOrder());
         }
     }
 }

@@ -11,23 +11,20 @@ namespace ChannelEngineHolder.Application.Products.Handlers
 {
     public class SetProductStockCommandHandler : IRequestHandler<SetProductStockCommand>
     {
-        private const int ProductNumber = 5;
-
-        private readonly ITopProductsService _productsService;
+        private const int StockValue = 25;
         private readonly IProductsRepository _productsRepository;
-        public SetProductStockCommandHandler(ITopProductsService productsService, IProductsRepository productsRepository)
+        public SetProductStockCommandHandler(IProductsRepository productsRepository)
         {
-            _productsService = productsService;
             _productsRepository = productsRepository;
         }
         public async Task<Unit> Handle(SetProductStockCommand request, CancellationToken cancellationToken)
         {
-            var top5Products = await _productsService.GetProductsByQuantity(ProductNumber);
-            if (!top5Products.Any(p => p.MerchantProductNo.Equals(request.ProductNumber)))
+            var product = await _productsRepository.GetAsync(request.ProductNumber);
+            if (product is null)
             {
                 throw new ProductNotFoundException(request.ProductNumber);
             }
-            await _productsRepository.SetStock(request.ProductNumber, request.Stock);
+            await _productsRepository.SetStock(request.ProductNumber, StockValue);
             return Unit.Value;
         }
     }

@@ -21,17 +21,25 @@ namespace ChannelEngineHolder.RestApiClient.Services
             _apiConfig = config;
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersInProgress()
+        public async Task<IEnumerable<OrderResponse>> GetOrdersInProgress()
         {
             var requestUrl = $"{_apiConfig.BaseUrl}v2/orders?statuses=IN_PROGRESS&apikey={_apiConfig.ApiKey}";
             var response = await GetAsync(requestUrl);
-            var orders = await ReadResponse<Order>(response);
+            var orders = await ReadResponse<IEnumerable<OrderResponse>>(response);
             return orders.Content;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts(List<string> numbers)
         {
-            var requestUrl = $"{_apiConfig.BaseUrl}v2/products?apikey={_apiConfig.ApiKey}";
+            var requestUrl = $"{_apiConfig.BaseUrl}v2/products?merchantProductNoList{string.Join(",", numbers)}&apikey={_apiConfig.ApiKey}";
+            var response = await GetAsync(requestUrl);
+            var productResponse = await ReadResponse<IEnumerable<Product>>(response);
+            return productResponse.Content;
+        }
+
+        public async Task<Product> GetProduct(string productNumber)
+        {
+            var requestUrl = $"{_apiConfig.BaseUrl}v2/products/{productNumber}?apikey={_apiConfig.ApiKey}";
             var response = await GetAsync(requestUrl);
             var productResponse = await ReadResponse<Product>(response);
             return productResponse.Content;

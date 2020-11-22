@@ -4,6 +4,6 @@ namespace ChannelEngineHolder.RestApiClient.Models
 {
    public class ChannelEngineContent<T>
     {
-        public IEnumerable<T> Content { get; set; }
+        public T Content { get; set; }
     }
 }

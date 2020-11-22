@@ -6,8 +6,8 @@ namespace ChannelEngineHolder.Application.Interfaces
 {
     public interface IProductsRepository
     {
-        Task<IEnumerable<Product>> GetAllAsync();
-
+        Task<IEnumerable<Product>> GetByNumbersAsync(List<string> numbers);
         Task SetStock(string productNumber, int stock);
+        Task<Product> GetAsync(string productNumber);
     }
 }

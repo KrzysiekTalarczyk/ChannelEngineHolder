@@ -7,14 +7,9 @@ namespace ChannelEngineHolder.Tests.Application
 {
    public class TopProductsServiceMock : Mock<ITopProductsService>
     {
-        public void SetupEmptyResults()
-        {
-            Setup(x => x.GetProductsByQuantity(It.IsAny<int>())).ReturnsAsync(new List<Product>());
-        }
-
         public void SetupResults(List<Product> products)
         {
-            Setup(x => x.GetProductsByQuantity(It.IsAny<int>())).ReturnsAsync(products);
+            Setup(x => x.GetProductsByQuantity(It.IsAny<IEnumerable<Order>>(), It.IsAny<int>())).ReturnsAsync(products);
         }
     }
 }

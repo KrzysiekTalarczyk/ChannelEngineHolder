@@ -14,14 +14,20 @@ namespace ChannelEngineHolder.RestApiClient.Services
         {
             _apiClient = apiClient;
         }
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        
+        public async Task<IEnumerable<Product>> GetByNumbersAsync(List<string> nunbers)
         {
-            return await _apiClient.GetProducts();
+            return await _apiClient.GetProducts(nunbers);
         }
 
         public async Task SetStock(string productNumber, int stock)
         {
             await _apiClient.SetProductStock(productNumber, stock);
+        }
+
+        public async Task<Product> GetAsync(string productNumber)
+        {
+            return await _apiClient.GetProduct(productNumber);
         }
     }
 }
