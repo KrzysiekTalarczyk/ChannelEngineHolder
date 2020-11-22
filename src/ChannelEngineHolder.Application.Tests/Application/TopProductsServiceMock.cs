@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ChannelEngineHolder.Application.Products.Services;
 using ChannelEngineHolder.Domain.Models;
 using Moq;
 
-namespace ChannelEngineHolder.Application.Tests.Application
+namespace ChannelEngineHolder.Tests.Application
 {
    public class TopProductsServiceMock : Mock<ITopProductsService>
     {

@@ -3,7 +3,7 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 
-namespace ChannelEngineHolder.Application.Tests.Helpers
+namespace ChannelEngineHolder.Tests.Helpers
 {
     public class AutoMoqDataAttribute : AutoDataAttribute
     {

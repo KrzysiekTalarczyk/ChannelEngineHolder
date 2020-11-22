@@ -15,28 +15,16 @@ namespace ChannelEngineHolder.Domain.Models
     public class Line
     {
         public string MerchantProductNo { get; set; }
-        public string Gtin { get; set; }
+        // public string Gtin { get; set; }
         public int Quantity { get; set; }
     }
-
 
     public class Product
     {
-        public Product()
-        {
-        }
-
-        public Product(Line l)
-        {
-           
-        }
-
         public string Name { get; set; }
-
         public string MerchantProductNo { get; set; }
-
         public string Gtin { get; set; }
         public int Quantity { get; set; }
+        public int Stock { get; set; }
     }
-
 }

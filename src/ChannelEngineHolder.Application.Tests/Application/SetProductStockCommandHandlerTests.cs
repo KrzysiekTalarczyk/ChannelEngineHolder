@@ -6,12 +6,12 @@ using ChannelEngineHolder.Application.Exceptions;
 using ChannelEngineHolder.Application.Interfaces;
 using ChannelEngineHolder.Application.Products.Commands;
 using ChannelEngineHolder.Application.Products.Handlers;
-using ChannelEngineHolder.Application.Tests.Helpers;
 using ChannelEngineHolder.Domain.Models;
+using ChannelEngineHolder.Tests.Helpers;
 using Moq;
 using Xunit;
 
-namespace ChannelEngineHolder.Application.Tests.Application
+namespace ChannelEngineHolder.Tests.Application
 {
     public class SetProductStockCommandHandlerTests
     {

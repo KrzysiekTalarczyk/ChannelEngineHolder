@@ -3,7 +3,7 @@ using ChannelEngineHolder.Application.Interfaces;
 using ChannelEngineHolder.Domain.Models;
 using Moq;
 
-namespace ChannelEngineHolder.Application.Tests.Application
+namespace ChannelEngineHolder.Tests.Application
 {
      public class OrdersRepositoryMock : Mock<IOrdersRepository>
     {

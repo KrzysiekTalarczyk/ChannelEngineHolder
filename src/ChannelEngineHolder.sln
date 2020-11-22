@@ -11,15 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{78D4E1D4-864E-4CA6-B081-927773CF04E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngineHolder.Domain", "ChannelEngineHolder.Domain\ChannelEngineHolder.Domain.csproj", "{E343EB28-FCDE-42AB-A588-BA75BB0A39D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngineHolder.Domain", "ChannelEngineHolder.Domain\ChannelEngineHolder.Domain.csproj", "{E343EB28-FCDE-42AB-A588-BA75BB0A39D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngineHolder.Application", "ChannelEngineHolder.Application\ChannelEngineHolder.Application.csproj", "{94E3F937-0AB4-4BEB-BE11-11F346443D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngineHolder.Application", "ChannelEngineHolder.Application\ChannelEngineHolder.Application.csproj", "{94E3F937-0AB4-4BEB-BE11-11F346443D22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngineHolder.ConsoleApp", "ChannelEngineHolder.ConsoleApp\ChannelEngineHolder.ConsoleApp.csproj", "{B08D5DC1-5B1B-45DE-A5C2-D62CB357AC01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngineHolder.ConsoleApp", "ChannelEngineHolder.ConsoleApp\ChannelEngineHolder.ConsoleApp.csproj", "{B08D5DC1-5B1B-45DE-A5C2-D62CB357AC01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngineHolder.Application.Tests", "ChannelEngineHolder.Application.Tests\ChannelEngineHolder.Application.Tests.csproj", "{F75619C4-AED7-46BE-89CB-53F5417A16AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngineHolder.Tests", "ChannelEngineHolder.Application.Tests\ChannelEngineHolder.Tests.csproj", "{F75619C4-AED7-46BE-89CB-53F5417A16AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelEngineHolder.RestApiClient", "ChannelEngineHolder.RestApiClient\ChannelEngineHolder.RestApiClient.csproj", "{FB0E44B1-3324-4CCD-8868-12C94C48061A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelEngineHolder.RestApiClient", "ChannelEngineHolder.RestApiClient\ChannelEngineHolder.RestApiClient.csproj", "{FB0E44B1-3324-4CCD-8868-12C94C48061A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

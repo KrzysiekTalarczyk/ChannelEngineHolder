@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChannelEngineHolder.Application\ChannelEngineHolder.Application.csproj" />
+    <ProjectReference Include="..\ChannelEngineHolder.RestApiClient\ChannelEngineHolder.RestApiClient.csproj" />
   </ItemGroup>
 
 </Project>

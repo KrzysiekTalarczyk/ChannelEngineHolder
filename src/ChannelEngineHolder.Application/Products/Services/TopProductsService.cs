@@ -9,17 +9,23 @@ namespace ChannelEngineHolder.Application.Products.Services
     public class TopProductsService : ITopProductsService
     {
         private readonly IOrdersRepository _ordersRepository;
-        public TopProductsService(IOrdersRepository ordersRepository)
+        private readonly IProductsRepository _productsRepository;
+        public TopProductsService(IOrdersRepository ordersRepository, IProductsRepository productsRepository)
         {
             _ordersRepository = ordersRepository;
+            _productsRepository = productsRepository;
         }
         public async Task<IEnumerable<Product>> GetProductsByQuantity(int number)
         {
             var orders = await _ordersRepository.GetAllInProgress();
-            return orders.SelectMany(o => o.Products)
+            var products = orders.SelectMany(o => o.Products)
                          .OrderByDescending(p => p.Quantity)
                          .Take(number)
                          .Select( l =>l); //toDo check TotalQuantity
+
+            var productsDetails = _productsRepository.GetAllAsync();
+            //toDo : set name
+            return products;
         }
     }
 }
