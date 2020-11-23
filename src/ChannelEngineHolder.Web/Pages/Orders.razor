@@ -1,10 +1,6 @@
 ﻿@page "/orders"
-
-@using ChannelEngineHolder.Domain.Models
 @using ChannelEngineHolder.Web.Data
-@using ChannelEngineHolder.Web.Data.ChannelEngineHolder.WebApp.Models
 @using ChannelEngineHolder.Web.Data.Models
-@using Microsoft.AspNetCore.Components.Web
 
 @inject ChannelEngineApiService ApiService
 
@@ -12,7 +8,7 @@
 
 <p>In progress Orders from Channel Engine Rest Api</p>
 
-@if (orders == null)
+@if (results?.Orders == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -27,7 +23,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var order in orders)
+            @foreach (var order in results.Orders)
             {
                 <tr>
                     <td>@order.Id</td>
@@ -43,7 +39,7 @@ else
 
 <p>Top 5 Products ordered by Quantity</p>
 
-@if (products == null)
+@if (results?.Top5Products == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -59,35 +55,42 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in products)
+            @foreach (var product in results.Top5Products)
             {
                 <tr>
-                    <td>@product.Number</td>
+                    <td>@product.MerchantProductNo</td>
                     <td>@product.Name</td>
                     <td>@product.Quantity</td>
-                    <td><button @onclick="@(e => UpdateStock(product.Number))"><i class="oi oi-check"></i></button></td>
+                    <td><button @onclick="@(e => UpdateStock(product.MerchantProductNo))"><i class="oi oi-check"></i></button></td>
                 </tr>
             }
         </tbody>
     </table>
+
+    @if (results?.UpdatedProduct != null)
+    {
+        <h4>Stock was Set up for Product: </h4>
+        <p> Number: @results.UpdatedProduct.MerchantProductNo</p>
+        <p> Name: @results.UpdatedProduct.Name</p>
+        <p> Stock @results.UpdatedProduct.Stock</p>
+    }
 }
 
 
 @code {
-    private List<Order> orders;
-    private List<ProductViewModel> products;
+    private DisplayResults results;
 
     protected override async Task OnInitializedAsync()
     {
-        orders = await ApiService.GetInProgressOrders();
-        products = await ApiService.GetTopProducts();
+        results = await ApiService.GetResults();
     }
 
-   
+
 
     private async Task UpdateStock(string number)
     {
-         await ApiService.SetProductStock(number);
+      var result =  await ApiService.SetProductStock(number);
+        results.UpdatedProduct = result;
     }
 
 }

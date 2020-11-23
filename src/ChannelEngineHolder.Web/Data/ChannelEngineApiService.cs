@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using ChannelEngineHolder.Application.Interfaces;
 using ChannelEngineHolder.Application.Orders.Queries;
+using ChannelEngineHolder.Application.Products.Commands;
+using ChannelEngineHolder.Application.Products.Queries;
 using ChannelEngineHolder.Domain.Models;
 using ChannelEngineHolder.Web.Data.Models;
 using MediatR;
@@ -9,34 +10,25 @@ using MediatR;
 namespace ChannelEngineHolder.Web.Data
 {
 
-        public class ChannelEngineApiService
+    public class ChannelEngineApiService
+    {
+        private readonly IMediator _mediator;
+        public ChannelEngineApiService(IMediator mediator, IOrdersRepository ordersRepository)
         {
-            private readonly IMediator _mediator;
-            public ChannelEngineApiService(IMediator mediator)
-            {
-                _mediator = mediator;
-            }
+            _mediator = mediator;
+        }
+        public async Task<DisplayResults> GetResults()
+        {
+            var orders = await _mediator.Send(new GetInProgressOrdersQuery());
+            var products = await _mediator.Send(new GetTopSoldProductsQuery() { Orders = orders });
+            return new DisplayResults() { Orders = orders, Top5Products = products };
+        }
 
-            public async Task<List<Order>> GetInProgressOrders()
-            {
-                 var orders = await _mediator.Send(new GetInProgressOrdersQuery());
-                 return orders.ToList();
-            }
-
-            public async Task<List<ProductViewModel>> GetTopProducts()
-            {   
-                var products = new List<ProductViewModel>()
-                {
-                    new ProductViewModel() {Number = "1", Name = "Channel Name 1", Quantity = 5},
-                    new ProductViewModel() {Number = "2", Name = "Channel Name 1", Quantity = 3},
-                    new ProductViewModel() {Number = "3", Name = "Channel Name 1", Quantity = 1},
-                };
-                return await Task.FromResult(products);
-            }
-
-            public async Task SetProductStock(string number)
-            {
-               await Task.CompletedTask;
-            }
+        public async Task<Product> SetProductStock(string productNumber)
+        {
+            await _mediator.Send(new SetProductStockCommand() { ProductNumber = productNumber });
+            var updatedProduct = await _mediator.Send(new GetProductQuery() { ProductNumber = productNumber });
+            return updatedProduct;
         }
     }
+}

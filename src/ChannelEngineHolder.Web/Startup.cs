@@ -33,7 +33,7 @@ namespace ChannelEngineHolder.Web
                 .Get<ChannelEngineApiConfig>();
             services.AddSingleton(configuration);
             services.RegisterIoDependencies();
-            services.AddSingleton<ChannelEngineApiService>();
+            services.AddScoped<ChannelEngineApiService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
