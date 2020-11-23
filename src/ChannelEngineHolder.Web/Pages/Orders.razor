@@ -1,0 +1,93 @@
+﻿@page "/orders"
+
+@using ChannelEngineHolder.Domain.Models
+@using ChannelEngineHolder.Web.Data
+@using ChannelEngineHolder.Web.Data.ChannelEngineHolder.WebApp.Models
+@using ChannelEngineHolder.Web.Data.Models
+@using Microsoft.AspNetCore.Components.Web
+
+@inject ChannelEngineApiService ApiService
+
+<h1>IN_PROGRESS Orders</h1>
+
+<p>In progress Orders from Channel Engine Rest Api</p>
+
+@if (orders == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Channel Name</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.ChannelName</td>
+                    <td>@order.CreatedAt.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h1>Top 5 Products</h1>
+
+<p>Top 5 Products ordered by Quantity</p>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Set Stock To 25</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Number</td>
+                    <td>@product.Name</td>
+                    <td>@product.Quantity</td>
+                    <td><button @onclick="@(e => UpdateStock(product.Number))"><i class="oi oi-check"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private List<Order> orders;
+    private List<ProductViewModel> products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await ApiService.GetInProgressOrders();
+        products = await ApiService.GetTopProducts();
+    }
+
+   
+
+    private async Task UpdateStock(string number)
+    {
+         await ApiService.SetProductStock(number);
+    }
+
+}
