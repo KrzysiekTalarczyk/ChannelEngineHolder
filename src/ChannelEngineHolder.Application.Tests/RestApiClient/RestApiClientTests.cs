@@ -11,8 +11,8 @@ namespace ChannelEngineHolder.Tests.RestApiClient
 {
     public class RestApiClientTests
     {
-        private const string BaseUrl = "https://api-dev.channelengine.net/api/";
-        private const string ApiKey = "541b989ef78ccb1bad630ea5b85c6ebff9ca3322";
+        private const string BaseUrl = "";
+        private const string ApiKey = "";
 
         [Fact]
         public async Task Should_ReturnOrders_FromRestApi()
